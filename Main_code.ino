@@ -84,7 +84,11 @@ void loop() {
   int irSensor2Value = analogRead(IR_SENSOR2_PIN);
 
   if (irSensor1Value < irThreshold1) {
-    displayMessage("Crack Detected - Sensor 1");
+    if (irSensor1Value < minorCrackThreshold) {
+      displayMessage("Minor Crack Detected - Sensor 1");
+    } else {
+      displayMessage("Major Crack Detected - Sensor 1");
+    }
     stopMotors();
     activateBuzzer();
     delay(2000);
@@ -92,12 +96,15 @@ void loop() {
   }
 
   if (irSensor2Value < irThreshold2) {
-    displayMessage("Crack Detected - Sensor 2");
+    if (irSensor2Value < minorCrackThreshold) {
+      displayMessage("Minor Crack Detected - Sensor 2");
+    } else {
+      displayMessage("Major Crack Detected - Sensor 2");
+    }
     stopMotors();
     activateBuzzer();
     delay(2000);
     deactivateBuzzer();
-  }
 
   // GPS location
   while (Serial.available() > 0) {
